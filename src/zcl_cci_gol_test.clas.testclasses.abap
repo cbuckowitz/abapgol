@@ -46,7 +46,7 @@ CLASS tcl_field IMPLEMENTATION.
         cl_abap_unit_assert=>fail( msg = 'Lesen aus initialer Tabelle darf nicht möglich sein' ).
 
 
-      CATCH lcx_field_not_found.
+      CATCH cx_static_check.
 
     ENDTRY.
 
@@ -61,7 +61,7 @@ CLASS tcl_field IMPLEMENTATION.
         cl_abap_unit_assert=>fail( msg = 'Schreiben in initiale Tabelle darf nicht möglich sein' ).
 
 
-      CATCH lcx_field_not_found.
+      CATCH cx_static_check.
 
     ENDTRY.
 
@@ -83,7 +83,7 @@ CLASS tcl_field IMPLEMENTATION.
          ).
 
 
-      CATCH lcx_field_not_found.
+      CATCH cx_static_check.
 
     ENDTRY.
 
@@ -271,11 +271,8 @@ CLASS tcl_field IMPLEMENTATION.
     DATA(lv_width) = 10.
     DATA(lv_height) = 10.
 
-*    -x-xx-
-*    x-xxx-
-*    -x----
-*    --xx--
-*    ----x-
+*    x--
+*    --x
 
     mo_cut->init_field( width = lv_width height = lv_height ).
     mo_cut->set_alive( iv_x = 2 iv_y = 1 iv_alive = abap_true ).
@@ -290,7 +287,6 @@ CLASS tcl_field IMPLEMENTATION.
     mo_cut->set_alive( iv_x = 4 iv_y = 4 iv_alive = abap_true ).
     mo_cut->set_alive( iv_x = 4 iv_y = 5 iv_alive = abap_true ).
 
-
     mo_cut->play_a_round( ).
 
     cl_abap_unit_assert=>assert_equals(
@@ -304,14 +300,9 @@ CLASS tcl_field IMPLEMENTATION.
         act = mo_cut->get_alive( iv_x = 2 iv_y = 1 ) ).
 
     cl_abap_unit_assert=>assert_equals(
-        msg = '31 dead 4n'
-        exp = abap_false
-        act = mo_cut->get_alive( iv_x = 3 iv_y = 1 ) ).
-
-    cl_abap_unit_assert=>assert_equals(
-        msg = '45 alive 3n'
+        msg = '31 alive'
         exp = abap_true
-        act = mo_cut->get_alive( iv_x = 4 iv_y = 5 ) ).
+        act = mo_cut->get_alive( iv_x = 3 iv_y = 1 ) ).
 
 
   ENDMETHOD.
